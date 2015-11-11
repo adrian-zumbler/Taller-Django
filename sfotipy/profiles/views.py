@@ -1,3 +1,8 @@
 from django.shortcuts import render
+from django.views.generic import View
+from django.contrib.auth.models import User
 
-# Create your views here.
+class CreateUserView(View):
+
+    def get(self,request):
+        return render(request,'profiles/create_user.html')

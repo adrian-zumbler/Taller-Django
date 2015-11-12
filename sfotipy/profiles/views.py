@@ -2,6 +2,8 @@
 from django.shortcuts import render
 from django.views.generic import View
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
 #modelos propios
 from .forms import CreateUserForm
 
@@ -29,3 +31,12 @@ class LoginUserView(View):
 
     def get(self,request):
         return render(request,'profiles/login_user.html')
+
+    def post(self,request):
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return HttpResponse('Usuario Logeado')
